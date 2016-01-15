@@ -1,0 +1,21 @@
+// Copyright 2016 The Chromium Authors. All rights reserved.
+// Use of this source code is governed by a BSD-style license that can be
+// found in the LICENSE file.
+
+module mojo.gfx;
+
+import "gfx/images/interfaces/image_pipe.mojom";
+import "gfx/images/interfaces/image.mojom";
+
+// The Display Manager service is intended as an eventual replacement for the 
+// graphics components of Native Viewport based on Image Pipes, essentially
+// providing Image Pipes whos consumer endpoint displays the presented images
+// on the physical Display.
+[ServiceName="mojo::gfx::DisplayManager"]
+interface DisplayManager {
+  // Gets an image pipe that displays presented images on the display. Returns
+  // the image properties supported by this display
+  GetImagePipe(ImagePipe& image_pipe) => (SupportedImageProperties initial_supported_properties);
+};
+
+

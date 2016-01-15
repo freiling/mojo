@@ -53,6 +53,10 @@ group("services") {
     deps += [ "//services/python" ]
   }
 
+  if (is_linux) {
+    deps += [ "//services/gfx/display_manager" ]
+  }
+
   if (is_android || is_linux) {
     deps += [
       "//services/device_info",
@@ -81,6 +85,7 @@ group("tests") {
     "//services/authenticating_url_loader_interceptor:apptests",
     "//services/clipboard:apptests",
     "//services/gfx/compositor:apptests",
+    "//services/gfx/display_manager:apptests",
     "//services/http_server:apptests",
     "//services/native_support:apptests",
     "//services/prediction:apptests",

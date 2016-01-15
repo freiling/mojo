@@ -1,0 +1,98 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//build/config/ui.gni")
+import("//mojo/public/mojo_application.gni")
+
+declare_args() {
+  mojo_use_dri3 = false
+}
+
+mojo_native_application("display_manager") {
+  output_name = "display_manager_service"
+  sources = [
+    "display_manager_app.cc",
+    "display_manager_app.h",
+  ]
+  deps = [
+    ":lib",
+    "//base",
+    "//mojo/public/cpp/application",
+    "//mojo/public/cpp/application:standalone",
+    "//mojo/public/cpp/system",
+    "//mojo/public/cpp/utility",
+    "//mojo/services/gfx/display_manager/interfaces",
+  ]
+}
+
+source_set("image_pipe_delegate_xcb") {
+  sources = [
+    "image_pipe_delegate_xcb.cc",
+    "image_pipe_delegate_xcb.h",
+  ]
+
+  deps = [
+    "//base",
+    "//mojo/public/cpp/application:application",
+    "//mojo/public/platform/native:platform_handle",
+    "//mojo/public/platform/native:platform_handle_api",
+    "//mojo/services/gfx/display_manager/interfaces",
+    "//mojo/services/gfx/images/cpp:lib",
+  ]
+
+  libs = [
+    "xcb",
+    "xcb-dri3",
+  ]
+}
+
+source_set("lib") {
+  sources = [
+    "display_manager_impl.cc",
+    "display_manager_impl.h",
+  ]
+
+  # gn barfs if mojo_use_dri3 is false because it doesnt understand conditional
+  # includes, so we disable include checking on this target only
+  check_includes = false
+
+  deps = [
+    "//base",
+    "//mojo/public/cpp/application:application",
+    "//mojo/services/gfx/display_manager/interfaces",
+    "//mojo/services/gfx/images/cpp:lib",
+  ]
+
+  if (mojo_use_dri3) {
+    defines = [ "MOJO_USE_DRI3" ]
+    if (use_x11) {
+      deps += [ ":image_pipe_delegate_xcb" ]
+      defines += [ "USE_X11" ]
+    }
+  }
+}
+
+mojo_native_application("apptests") {
+  output_name = "display_manager_apptests"
+
+  testonly = true
+
+  sources = [
+    "display_manager_apptest.cc",
+  ]
+
+  deps = [
+    "//mojo/public/cpp/application:standalone",
+    "//mojo/public/cpp/application:test_support_standalone",
+    "//mojo/public/cpp/environment",
+    "//mojo/public/cpp/system",
+    "//mojo/public/cpp/utility",
+    "//mojo/services/gfx/display_manager/interfaces",
+    "//mojo/services/gfx/images/interfaces",
+  ]
+
+  if (mojo_use_dri3 && use_x11) {
+    defines = [ "MOJO_USE_IMAGE_PIPE" ]
+  }
+}
