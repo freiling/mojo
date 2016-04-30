@@ -1,0 +1,18 @@
+
+Image Pipe Examples:
+
+This is a collection of examples which do some kind of graphics stuff with
+the Image Pipe interface. The subfolders are as follows:
+
+- standalone_spinning_cube:
+	Builds image_pipe_spinning_cube.mojo, which can be launched from mojo_shell
+	to launch spinning cube on a native window. basically a standalone launcher
+	for image producers
+
+- interfaces:
+	contains the mojom interface that launchers use to initialize various
+	image producers
+	
+- gles2_spinning_cube:
+	defines a simple service that binds the image producer interface to the GL
+	spinning cube in //examples/spinning_cube

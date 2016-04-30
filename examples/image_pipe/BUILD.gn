@@ -1,0 +1,11 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+group("image_pipe_examples") {
+  deps = [
+    "standalone_spinning_cube:image_pipe_spinning_cube",
+    "gles2_image_compositor",
+  ]
+}
+

@@ -1,0 +1,27 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//mojo/public/mojo_application.gni")
+
+mojo_native_application("gles2_spinning_cube") {
+  sources = [
+    "gles2_spinning_cube_app.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//examples/spinning_cube:gles2_client_impl",
+    "//mojo/public/c/gpu",
+    "//mojo/public/cpp/application:standalone",
+    "//mojo/public/cpp/bindings",
+    "//mojo/public/cpp/environment",
+    "//mojo/public/cpp/system",
+    "//mojo/public/cpp/utility",
+    "//mojo/services/gfx/images/interfaces",
+    "//mojo/services/gpu/interfaces",
+    "../interfaces"
+  ]
+}
+
+

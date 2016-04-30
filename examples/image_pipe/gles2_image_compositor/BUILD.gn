@@ -1,0 +1,32 @@
+# Copyright 2016 The Chromium Authors. All rights reserved.
+# Use of this source code is governed by a BSD-style license that can be
+# found in the LICENSE file.
+
+import("//mojo/public/mojo_application.gni")
+
+mojo_native_application("gles2_image_compositor") {
+  sources = [
+    "gles2_image_compositor_app.cc",
+    "image_compositor_image_pipe_delegate.h",
+    "image_compositor_image_pipe_delegate.cc",
+  ]
+
+  deps = [
+    "//base",
+    "//mojo/public/cpp/application:standalone",
+    "//mojo/public/cpp/bindings",
+    "//mojo/public/cpp/environment",
+    "//mojo/public/cpp/system",
+    "//mojo/public/cpp/utility",
+    "//mojo/services/gfx/display_manager/interfaces",
+    "//mojo/services/gfx/images/interfaces",
+    "//mojo/services/gfx/images/cpp:lib",
+    "../interfaces",
+    "../gles2_spinning_cube",
+    "//mojo/public/c/gpu:MGL",
+    "//mojo/public/c/gpu:MGL_onscreen",
+    "//mojo/public/c/gpu",
+    "//mojo/public/c/gpu:GLES2",
+    "//mojo/services/gpu/interfaces"
+  ]
+}
